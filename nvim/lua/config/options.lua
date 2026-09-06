@@ -1,0 +1,10 @@
+vim.opt.relativenumber = true
+vim.opt.number = true
+vim.opt.wrap = false
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.updatetime = 200
+vim.opt.timeoutlen = 300
+vim.opt.clipboard = "unnamedplus"
+vim.opt.undofile = true

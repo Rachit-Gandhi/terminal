@@ -1,0 +1,32 @@
+# macOS and editor artifacts
+.DS_Store
+*.swp
+*.swo
+*.log
+
+# Installer backups are machine-local
+*.backup-*
+
+# Never commit credentials or generated Pi state
+pi/agent/auth.json
+pi/agent/models-store.json
+pi/agent/trust.json
+pi/agent/sessions/
+pi/agent/state/
+pi/agent/npm/
+pi/agent/git/
+pi/agent/node_modules/
+pi/agent/**/*.jsonl
+pi/agent/.env*
+
+# Keep machine-access details and local research out of this public repository
+pi/agent/research/
+pi/agent/skills/omarchy-remote-desktop/
+pi/agent/extensions/*autosync*
+pi/agent/extensions.disabled/
+
+# Herdr runtime files
+herdr/*.sock
+herdr/session.json
+herdr/release-notes.json
+herdr/.plugins.lock

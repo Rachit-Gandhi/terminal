@@ -1,0 +1,8 @@
+# Neovim runtime state/cache should never be committed
+.lazy-lock.json.tmp
+*.log
+
+# Local editor files
+.vim/
+.vscode/
+.DS_Store

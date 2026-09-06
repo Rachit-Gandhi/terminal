@@ -1,0 +1,25 @@
+# Terminal settings that work well with Neovim, Herdr, and coding-agent TUIs.
+font-family = MesloLGS Nerd Font
+font-size = 15
+theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+
+# Native macOS transparency and glass effect.
+background-opacity = 0.6
+background-opacity-cells = true
+background-blur = macos-glass-regular
+
+macos-titlebar-style = tabs
+macos-option-as-alt = true
+shell-integration = detect
+clipboard-read = allow
+clipboard-write = allow
+window-padding-x = 10
+window-padding-y = 8
+cursor-style = bar
+cursor-style-blink = false
+mouse-hide-while-typing = true
+confirm-close-surface = false
+
+# Make Option+Backspace reliable in Pi and other terminal TUIs.
+keybind = alt+backspace=text:\x1b\x7f
+keybind = global:ctrl+shift+space=toggle_quick_terminal
