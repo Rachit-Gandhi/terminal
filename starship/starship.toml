@@ -1,0 +1,3 @@
+# Starship currently uses its built-in defaults. Keeping this file under
+# version control makes future prompt changes portable between machines.
+"$schema" = "https://starship.rs/config-schema.json"

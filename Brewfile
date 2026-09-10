@@ -7,6 +7,12 @@ brew "ripgrep"
 brew "fd"
 brew "fzf"
 brew "git-delta"
+brew "bat"
+brew "eza"
+brew "fnm"
+brew "gh"
+brew "starship"
+brew "zoxide"
 
 # Language toolchains used by the LazyVim configuration
 brew "go"
