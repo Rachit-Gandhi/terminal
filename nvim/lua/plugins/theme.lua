@@ -19,35 +19,21 @@ end
 
 local function sync_theme()
   vim.o.background = system_background()
-  vim.cmd.colorscheme("catppuccin")
+  vim.cmd.colorscheme(vim.o.background == "light" and "tokyonight-day" or "tokyonight-moon")
   vim.notify("Neovim theme synced to system " .. vim.o.background .. " mode")
 end
 
 return {
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
     opts = {
-      flavour = "auto",
-      background = {
-        light = "latte",
-        dark = "mocha",
-      },
-      integrations = {
-        blink_cmp = true,
-        gitsigns = true,
-        lualine = true,
-        mason = true,
-        noice = true,
-        snacks = true,
-        treesitter = true,
-        which_key = true,
-      },
+      style = "moon",
+      light_style = "day",
     },
     config = function(_, opts)
-      require("catppuccin").setup(opts)
+      require("tokyonight").setup(opts)
       vim.api.nvim_create_user_command("ThemeSync", sync_theme, {
         desc = "Sync Neovim theme with system appearance",
       })

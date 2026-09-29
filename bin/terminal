@@ -19,10 +19,10 @@ case "${1:-}" in
     cat <<'EOF'
 Usage: terminal <command>
 
-  sync       Apply the checked-in setup to this Mac
-  update     Pull repository changes, then sync
+  sync       Apply config, Tokyo Night, tools, and plugins to this Mac
+  update     Pull repository changes, then sync (includes theme reload)
   upgrade    Update the repository and installed tools to current versions
-  check      Validate tools and managed configuration
+  check      Validate tools, Tokyo Night, and managed configuration
   uninstall  Remove the managed setup (prompts before removing packages)
 EOF
     ;;

@@ -1,7 +1,15 @@
 # Terminal settings that work well with Neovim, Herdr, and coding-agent TUIs.
 font-family = MesloLGS Nerd Font
 font-size = 15
-theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+# TokyoNight Moon sits next to Catppuccin Mocha (same cool purple-blue
+# night) but uses more saturated reds, greens, oranges, and cyans.
+# Reload with Cmd+Shift+Comma, or Cmd+Shift+P then "Reload Config".
+# Cmd+Plus only changes font size.
+theme = dark:TokyoNight Moon,light:TokyoNight Day
+
+# Lift dim ANSI colors toward WCAG-readable contrast.
+# 3 is Ghostty's recommended "difficult to read" floor.
+minimum-contrast = 3
 
 # Native macOS transparency and glass effect.
 background-opacity = 0.6

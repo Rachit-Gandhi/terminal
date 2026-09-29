@@ -2,7 +2,7 @@
 
 One repository for Rachit's terminal-first development environment:
 
-- [Ghostty](https://ghostty.org/) with Catppuccin, Meslo Nerd Font, macOS glass, and TUI-friendly keys
+- [Ghostty](https://ghostty.org/) with Tokyo Night, Meslo Nerd Font, macOS glass, and TUI-friendly keys
 - Zsh, Oh My Zsh, shell plugins, [Starship](https://starship.rs/), Zoxide, FZF, Eza, and Bat
 - [Herdr](https://herdr.dev/) with the saved UI/theme configuration and current Pi integration
 - [Neovim](https://neovim.io/) with the pinned LazyVim configuration for Go, Java, Node/TypeScript, Python, and Markdown
@@ -121,10 +121,10 @@ upstream resources.
 After the first install, use the maintenance command from any directory:
 
 ```bash
-terminal sync       # apply config and reconcile dependencies
-terminal update     # git pull --ff-only, then sync
+terminal sync       # apply config, Tokyo Night, and reconcile dependencies
+terminal update     # git pull --ff-only, then sync (reloads Ghostty theme)
 terminal upgrade    # update the repo, Homebrew, Pi, and Neovim plugin pins
-terminal check      # non-destructive validation
+terminal check      # non-destructive validation, including the theme
 ```
 
 `terminal upgrade` can change `nvim/lazy-lock.json`; review and commit intended
@@ -149,3 +149,4 @@ installer-created checkouts, and (unless retained) packages listed in the
 `Brewfile`. It deliberately keeps the Git repository, Homebrew itself,
 credentials, sessions, pre-existing checkouts, and backup files so personal data
 is not destroyed. Review those and delete them manually if no longer needed.
+

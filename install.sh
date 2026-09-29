@@ -22,10 +22,10 @@ Usage: ./install.sh [COMMAND]
 Install, synchronize, update, or remove the macOS terminal environment.
 When piped from GitHub, the script clones the repository first.
 
-  --sync                 Apply the checked-in setup (default)
-  --update               Pull repository changes, then sync
+  --sync                 Apply the checked-in setup, including Tokyo Night (default)
+  --update               Pull repository changes, then sync and reload the theme
   --upgrade              Pull changes and upgrade managed tools and plugins
-  --check                Validate tools and configuration without changes
+  --check                Validate tools, Tokyo Night, and configuration without changes
   --uninstall [OPTIONS]  Remove managed configuration and integrations
   -h, --help             Show this help
 
@@ -241,6 +241,39 @@ install_zsh_completion() {
   herdr completion zsh > "$completion_dir/_herdr"
 }
 
+reload_ghostty_config() {
+  if ! pgrep -u "$(id -u)" -i ghostty >/dev/null 2>&1; then
+    echo "Ghostty is not running; Tokyo Night will apply on next launch."
+    return 0
+  fi
+
+  # Ghostty 1.2+ reloads on SIGUSR2. The menu item covers the macOS case
+  # where SIGUSR2 is ignored while Ghostty is focused.
+  killall -USR2 Ghostty 2>/dev/null || killall -USR2 ghostty 2>/dev/null || true
+  osascript -e 'tell application "System Events" to tell process "Ghostty" to click menu item "Reload Configuration" of menu "Ghostty" of menu bar 1' >/dev/null 2>&1 || true
+  echo "Asked Ghostty to reload Tokyo Night. If colors did not change, press Cmd+Shift+Comma."
+}
+
+apply_terminal_theme() {
+  local repo_root="$1"
+
+  log "Applying Tokyo Night across Ghostty, Neovim, and Pi"
+  ghostty +validate-config || warn "Ghostty config failed validation."
+  reload_ghostty_config
+
+  if [[ -f "$PI_AGENT_DIR/themes/tokyo-night-moon.json" ]]; then
+    echo "Pi theme tokyo-night-moon is in place."
+  else
+    warn "Pi theme tokyo-night-moon was not copied."
+  fi
+
+  if grep -q 'tokyonight-moon' "$repo_root/nvim/lua/plugins/theme.lua"; then
+    echo "Neovim is configured for TokyoNight Moon/Day."
+  else
+    warn "Neovim theme.lua does not reference TokyoNight Moon."
+  fi
+}
+
 sync_installation() {
   local repo_root="$1"
 
@@ -274,12 +307,16 @@ sync_installation() {
   log "Synchronizing Neovim plugins"
   nvim --headless '+Lazy! sync' +qa
 
+  apply_terminal_theme "$repo_root"
+
   cat <<EOF
 
 Portable terminal setup synchronized from:
   $repo_root
 
-Open a new terminal, then run 'terminal check' to verify everything.
+Ghostty, Neovim, and Pi now use Tokyo Night. Open a new terminal or
+press Cmd+Shift+Comma in Ghostty if colors did not reload, then run
+'terminal check' to verify everything.
 Provider credentials and machine state were intentionally not restored.
 EOF
 }
@@ -338,6 +375,32 @@ check_installation() {
   check_link "$repo_root/zsh/.zshrc" "$HOME/.zshrc" "Zsh config" || failed=1
   check_link "$repo_root/zsh/.zprofile" "$HOME/.zprofile" "Zsh profile" || failed=1
   check_link "$repo_root/bin/terminal" "$HOME/.local/bin/terminal" "Terminal command" || failed=1
+
+  log "Checking Tokyo Night theme"
+  grep -Fq 'theme = dark:TokyoNight Moon,light:TokyoNight Day' "$repo_root/ghostty/config" || {
+    echo "Ghostty is not set to TokyoNight Moon/Day." >&2
+    failed=1
+  }
+  grep -Fq 'tokyonight-moon' "$repo_root/nvim/lua/plugins/theme.lua" || {
+    echo "Neovim is not set to TokyoNight Moon/Day." >&2
+    failed=1
+  }
+  grep -Fq '"theme": "tokyo-night-moon"' "$repo_root/pi/agent/settings.json" || {
+    echo "Pi is not set to tokyo-night-moon." >&2
+    failed=1
+  }
+  [[ -f "$repo_root/pi/agent/themes/tokyo-night-moon.json" && -f "$repo_root/pi/agent/themes/tokyo-night-day.json" ]] || {
+    echo "Pi Tokyo Night theme files are missing." >&2
+    failed=1
+  }
+  grep -Fq '"theme": "tokyo-night-moon"' "$PI_AGENT_DIR/settings.json" 2>/dev/null || {
+    echo "Installed Pi settings are not using tokyo-night-moon." >&2
+    failed=1
+  }
+  [[ -f "$PI_AGENT_DIR/themes/tokyo-night-moon.json" ]] || {
+    echo "Installed Pi theme tokyo-night-moon is missing." >&2
+    failed=1
+  }
 
   ghostty +validate-config || failed=1
   STARSHIP_CONFIG="$repo_root/starship/starship.toml" starship print-config >/dev/null || failed=1

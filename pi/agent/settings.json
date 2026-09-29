@@ -1,5 +1,5 @@
 {
-  "theme": "catppuccin-latte",
+  "theme": "tokyo-night-moon",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "high",

@@ -67,6 +67,7 @@ the bootstrap also installs global Maven and Gradle commands.
 
 ## System theme
 
-Neovim uses the same Catppuccin pair as Ghostty: Mocha in dark mode and Latte
+Neovim uses the same Tokyo Night pair as Ghostty: Moon in dark mode and Day
 in light mode. The appearance is detected on startup. Run `:ThemeSync` or press
 `<leader>uT` after changing the macOS appearance without restarting Neovim.
+`terminal update` and `terminal sync` also apply this theme.

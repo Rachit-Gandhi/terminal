@@ -29,6 +29,8 @@ check_config() {
   echo "Checking Neovim configuration..."
   nvim --headless -u "$repo_dir/init.lua" +'LivePreview help' \
     +'lua assert(vim.api.nvim_get_commands({}).LivePreview, "LivePreview command missing")' \
+    +'lua assert(require("lazy.core.config").plugins["tokyonight.nvim"], "Tokyo Night theme missing")' \
+    +'lua assert(tostring(vim.g.colors_name):find("tokyonight", 1, true), "Tokyo Night colorscheme is not active")' \
     +'lua assert(require("lazy.core.config").plugins["nvim-jdtls"], "Java support missing")' \
     +'lua assert(require("lazy.core.config").plugins["nvim-dap"], "debugger support missing")' +qa
   echo "Configuration loads successfully."
